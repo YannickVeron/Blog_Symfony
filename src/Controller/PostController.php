@@ -5,6 +5,9 @@ namespace App\Controller;
 
 use App\Repository\PostRepository;
 use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -28,6 +31,33 @@ class PostController extends AbstractController
     public function show(Post $post):Response
     {
         return $this->render("post/show.html.twig",['post'=>$post]);
+    }
+
+    /**
+     * @Route("/add", name="post_add")
+     */
+    public function add(Request $request,EntityManagerInterface $entityManager):Response
+    {
+        $post = new Post();
+        $form = $this->createFormBuilder($post)
+            ->add('title',TextType::class)
+            ->add('content',TextType::class)
+            ->add('save',SubmitType::class,['label'=>'Create Post'])
+            ->getForm();
+
+        $form->handleRequest($request);
+        if($form->isSubmitted() && $form->isValid()){
+            $post = $form->getData();
+            $post->setCreatedAt(new \DateTime());
+            $post->setIsDeleted(false);
+            $post->setAuthor();
+            $entityManager->persist($post);
+            $entityManager->flush();
+
+            return $this->redirectToRoute('post_index');
+        }
+
+        return $this->render('post/add.html.twig',['form'=>$form->createView()]);
     }
 
     public function topPosts(PostRepository $postRepo,$limit=10) : Response
