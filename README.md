@@ -51,3 +51,11 @@ EasyAdmin est un bundle symfony qui permet de créer un backend d'administration
 #####Pourquoi doit-on implémenter des méthodes to string dans nos entités?
 
 Les méthodes toString sont utilisées pour afficher les relations.
+
+###Controllers
+
+####ParamResolver
+
+#####Qu'est-ce que le ParamResolver ?
+
+Le paramResolver convertit les parametres de la requête (POST, GET...) en variable pour le controller

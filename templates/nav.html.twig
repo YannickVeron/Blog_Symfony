@@ -1,0 +1,17 @@
+<nav>
+    <ul class="nav flex-column">
+        <li class="nav-item">
+            <h2>Person</h2>
+        </li>
+        <h4>Top articles</h4>
+        {{ render(controller(
+            'App\\Controller\\PostController::topPosts',
+            { 'limit': 3 }
+        )) }}
+        <h4>Last articles</h4>
+        {{ render(controller(
+            'App\\Controller\\PostController::lastPosts',
+            { 'limit': 3 }
+        )) }}
+    </ul>
+</nav>

@@ -47,4 +47,15 @@ class UserRepository extends ServiceEntityRepository
         ;
     }
     */
+
+    public function findLastPost($limit = 10){
+        $qb = $this->createQueryBuilder('u');
+        $qb->addSelect('u.post')
+            ->leftJoin('p.comments','c',Expr\Join::WITH,'p = c.post')
+            ->groupBy('p.id')
+            ->orderBy('comCount','DESC')
+            ->addOrderBy('p.createdAt','DESC');
+
+        return $qb->getQuery()->execute();
+    }
 }

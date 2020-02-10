@@ -5,6 +5,7 @@ namespace App\Repository;
 use App\Entity\Post;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Common\Persistence\ManagerRegistry;
+use Doctrine\ORM\Query\Expr;
 
 /**
  * @method Post|null find($id, $lockMode = null, $lockVersion = null)
@@ -47,4 +48,15 @@ class PostRepository extends ServiceEntityRepository
         ;
     }
     */
+
+    public function findTop($limit=10):array{
+        $qb = $this->createQueryBuilder('p');
+        $qb->addSelect('COUNT(c.id) AS HIDDEN comCount')
+            ->leftJoin('p.comments','c',Expr\Join::WITH,'p = c.post')
+            ->groupBy('p.id')
+            ->orderBy('comCount','DESC')
+            ->addOrderBy('p.createdAt','DESC');
+
+        return $qb->getQuery()->execute();
+    }
 }

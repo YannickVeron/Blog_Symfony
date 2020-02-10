@@ -1,0 +1,8 @@
+{% extends 'base.html.twig' %}
+{% block content %}
+    <h2>{{ user.username }}</h2>
+    <h5>Last Articles</h5>
+    {%for post in lastPosts %}
+        {% include 'post/short.html.twig' %}
+    {% endfor %}
+{% endblock %}
