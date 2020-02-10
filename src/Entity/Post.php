@@ -132,4 +132,11 @@ class Post
 
         return $this;
     }
+
+    public function __toString()
+    {
+        return substr($this->getContent(),0,20)."...";
+    }
+
+
 }

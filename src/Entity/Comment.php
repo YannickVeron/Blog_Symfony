@@ -107,4 +107,11 @@ class Comment
 
         return $this;
     }
+
+    public function __toString()
+    {
+        return $this->getAuthor()." : ".substr($this->getContent(),0,20)."...";
+    }
+
+
 }
