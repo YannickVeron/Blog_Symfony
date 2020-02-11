@@ -3,6 +3,8 @@
 
 namespace App\Controller;
 
+use App\Entity\User;
+use App\Form\Type\PostType;
 use App\Repository\PostRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
@@ -39,25 +41,25 @@ class PostController extends AbstractController
     public function add(Request $request,EntityManagerInterface $entityManager):Response
     {
         $post = new Post();
-        $form = $this->createFormBuilder($post)
-            ->add('title',TextType::class)
-            ->add('content',TextType::class)
-            ->add('save',SubmitType::class,['label'=>'Create Post'])
-            ->getForm();
+        $form = $this->createForm(PostType::class,$post);
 
         $form->handleRequest($request);
         if($form->isSubmitted() && $form->isValid()){
+            //TODO("Handle error when no user are found")
+            $userRepo = $entityManager->getRepository(User::class);
+            $user = $userRepo->findBy([],null,1)[0];
+
             $post = $form->getData();
             $post->setCreatedAt(new \DateTime());
             $post->setIsDeleted(false);
-            $post->setAuthor();
+            $post->setAuthor($user);
             $entityManager->persist($post);
             $entityManager->flush();
 
             return $this->redirectToRoute('post_index');
         }
 
-        return $this->render('post/add.html.twig',['form'=>$form->createView()]);
+        return $this->render('post/add.html.twig',['toto'=>$form->createView()]);
     }
 
     public function topPosts(PostRepository $postRepo,$limit=10) : Response

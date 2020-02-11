@@ -1,8 +1,8 @@
 # Blog_Symfony
 
-###Doctrine
+### Doctrine
 
-####Création des entités
+#### Création des entités
 
 >Quelles relations existent entre les entités (Many To One/Many To Many/...) ? 
 
@@ -13,11 +13,11 @@ Comment => Post : Many to One
 Comment => User : Many to One
 User => Comment : One to Many
 
-#####Faire un schéma de la base de données.
+##### Faire un schéma de la base de données.
 
 ![schema BDD](resources/Blog.svg)
 
-####Connexion à la base
+#### Connexion à la base
 
 >Expliquer ce qu'est le fichier .env
 
@@ -27,22 +27,22 @@ Le fichier .env est utilisé pour définir les variables d'environment.
 
 Il faut changer le connecteur car il utilise par default une BDD mysql au lieu d'SQLite
 
-####Migrations
+#### Migrations
 
 >Expliquer l'intérêt des migrations d'une base de données.
 
 Les migration permettent de pouvoir revenir en arrière si besoin grâce au rollback.
 
-###Administration
+### Administration
 
-####Administration avec Symfony
+#### Administration avec Symfony
 
 >Faire une recherche sur les différentes solutions disponibles pour l'administration dans Symfony
 
 * EasyAdmin
 * Sonata
 
-####EasyAdmin
+#### EasyAdmin
 
 >Travail préparatoire : Qu'est-ce que EasyAdmin ?
 
@@ -52,17 +52,17 @@ EasyAdmin est un bundle symfony qui permet de créer un backend d'administration
 
 Les méthodes toString sont utilisées pour afficher les relations.
 
-###Controllers
+### Controllers
 
-####ParamConverter
+#### ParamConverter
 
 >Qu'est-ce que le ParamConverter ?
 
 Le paramResolver convertit les parametres de la requête (POST, GET...) en variable (objects) pour le controller
 
-###Form
+### Form
 
-####Intégration dans le projet
+#### Intégration dans le projet
 
 >Qu'est-ce qu'un formulaire Symfony ?
 
@@ -70,6 +70,15 @@ Un formulaire symfony gère automatiquement le rendu, la validation et le mappin
 
 >Quels avantages offrent l'usage d'un formulaire ?
 
-####Thème Personnalisé
+
+
+#### Thème Personnalisé
 
 >Quelles sont les différentes personalisations de formulaire qui peuvent être faites dans Symfony ?
+
+Les personalisations sont :
+* label
+* errors
+* row
+* widget
+* help
