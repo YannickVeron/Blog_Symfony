@@ -59,7 +59,7 @@ class PostController extends AbstractController
             return $this->redirectToRoute('post_index');
         }
 
-        return $this->render('post/add.html.twig',['toto'=>$form->createView()]);
+        return $this->render('post/add.html.twig',['form'=>$form->createView()]);
     }
 
     public function topPosts(PostRepository $postRepo,$limit=10) : Response

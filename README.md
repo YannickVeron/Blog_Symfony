@@ -70,7 +70,7 @@ Un formulaire symfony gère automatiquement le rendu, la validation et le mappin
 
 >Quels avantages offrent l'usage d'un formulaire ?
 
-
+Rendu, validation automatique.
 
 #### Thème Personnalisé
 
@@ -82,3 +82,34 @@ Les personalisations sont :
 * row
 * widget
 * help
+
+### Security
+
+#### Avant-propos
+
+>Définir les termes suivants : Encoder, Provider, Firewall, Access Control, Role, Voter
+
+* Encoder : Gère l'encodage des mot de passe. 
+* Provider : Gère l'utilisateur connecté (Reload depuis session, remember-me, impersonation)
+* Firewall : Système d'auth, définie comment un utilisateur se connect (form, api, etc)
+* Access Control : Vérifie que l'utilisateur peut acceder à la ressource demandée.
+* Role : Droit d'un utilisateur, l'Access Control vérifie les roles pour donner accès ou non aux ressources
+* Voter : Définit les droits d'un utilisteur spécifique envers une ressource spécifique (ex : un utilisateur peut modifier un article si il en est l'auteur.)
+
+>Qu'est-ce que FOSUserBundle ? Pourquoi ne pas l'utiliser ?
+
+FOSUserBundle gère l'inscription, les mots de passe oubliés...
+Il ne sera pas utilisé car il n'y aura pas besoin de ces fonctionnalités dans notre blog.
+
+>Définir les termes suivants : Argon2i, Bcrypt, Plaintext, BasicHTTP
+
+* Argon2i et Bcrypt sont des hasheurs de mot de passe.
+* Plaintext signifie sans cryptage.
+* BasicHTTP encode les paires ID_user/MdP encodés en base64
+
+
+
+#### Authentification
+
+>Définir ce qu'est le basicHTTP
+

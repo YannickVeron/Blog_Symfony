@@ -5,8 +5,10 @@ namespace App\Controller;
 
 use App\Entity\Post;
 use App\Entity\User;
+use App\Form\Type\PostType;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
@@ -32,4 +34,5 @@ class UserController extends AbstractController
         $lastPosts=$postRepo->findBy(['author'=>$user],['createdAt' => 'ASC'],10);
         return $this->render("user/show.html.twig",['user'=>$user,'lastPosts'=>$lastPosts]);
     }
+
 }
