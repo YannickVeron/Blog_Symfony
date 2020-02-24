@@ -1,5 +1,12 @@
 # Blog_Symfony
 
+To run blog : 
+```
+http://127.0.0.1:8000/  
+composer install
+bin/console doctrine:migrations:migrate
+```
+
 ### Doctrine
 
 #### Création des entités
@@ -76,7 +83,7 @@ Rendu, validation automatique.
 
 >Quelles sont les différentes personalisations de formulaire qui peuvent être faites dans Symfony ?
 
-Les personalisations sont :
+Les personnalisations sont :
 * label
 * errors
 * row
@@ -107,9 +114,7 @@ Il ne sera pas utilisé car il n'y aura pas besoin de ces fonctionnalités dans 
 * Plaintext signifie sans cryptage.
 * BasicHTTP encode les paires ID_user/MdP encodés en base64
 
+>Expliquer le principe de hachage.
 
-
-#### Authentification
-
->Définir ce qu'est le basicHTTP
+>Faire un schema expliquant quelle méthode est appelée dans quel ordre dans le LoginFormAuthenticator. Définir l'objectif de chaque méthodes du fichier.
 

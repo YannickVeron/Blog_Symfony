@@ -5,9 +5,11 @@
         <a href="{{ path("user_show",{id:post.author.id,name:post.author.username})}}">{{  post.author }}</a>
     </h6>
     <p>
-        {{ post.content }}
+        {{ post.content | striptags | markdown_to_html }}
     </p>
-    <textarea placeholder="Add Comment"></textarea>
+    {{ render(controller(
+        'App\\Controller\\CommentController::add'
+    )) }}
     <h5>Last Comments</h5>
     {%for comment in post.comments %}
         <h6>

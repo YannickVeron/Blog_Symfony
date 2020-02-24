@@ -27,4 +27,13 @@ class SecurityController extends AbstractController
             'error' => $error
         ]);
     }
+
+    /**
+     * @Route("/logout", name="app_logout", methods={"GET"})
+     */
+    public function logout(): Response
+    {
+        // controller can be blank: it will never be executed!
+        throw new \Exception('Don\'t forget to activate logout in security.yaml');
+    }
 }

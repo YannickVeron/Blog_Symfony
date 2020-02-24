@@ -1,7 +1,12 @@
 <nav>
     <ul class="nav flex-column">
         <li class="nav-item">
-            <h2>Person</h2>
+            {% if app.user %}
+                <h2>{{app.user.username}}</h2>
+                <a class="btn btn-info" href="{{ path("app_logout")}}">Logout</a>
+            {% else %}
+                <a class="btn btn-info" href="{{ path("app_login")}}">Login</a>
+            {% endif %}
         </li>
         <h4>Top articles</h4>
         {{ render(controller(

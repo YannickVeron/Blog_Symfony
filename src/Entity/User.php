@@ -52,9 +52,21 @@ class User implements UserInterface
     private $password;
 
     /**
+     * A non-persisted field that's used to create the encoded password.
+     *
+     * @var string
+     */
+    private $plainPassword;
+
+    /**
      * @ORM\Column(type="json")
      */
     private $roles = [];
+
+    /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $email;
 
     public function __construct()
     {
@@ -165,7 +177,7 @@ class User implements UserInterface
         return $this;
     }
 
-    public function __toString()
+    public function __toString(): String
     {
         return $this->username;
     }
@@ -185,9 +197,9 @@ class User implements UserInterface
      *
      * @return string[] The user roles
      */
-    public function getRoles()
+    public function getRoles():array
     {
-        return $this->roles;
+        return array_merge(["ROLE_USER"], $this->roles);
     }
 
     /**
@@ -233,10 +245,36 @@ class User implements UserInterface
         return $this;
     }
 
+    public function getPlainPassword()
+    {
+        return $this->plainPassword;
+    }
+    public function setPlainPassword($plainPassword)
+    {
+        $this->plainPassword = $plainPassword;
+        $this->password = null;
+    }
     public function setRoles(array $roles): self
     {
         $this->roles = $roles;
 
         return $this;
     }
+
+    /**
+     * @return mixed
+     */
+    public function getEmail()
+    {
+        return $this->email;
+    }
+
+    /**
+     * @param mixed $email
+     */
+    public function setEmail($email): void
+    {
+        $this->email = $email;
+    }
+
 }

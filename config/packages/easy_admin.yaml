@@ -11,6 +11,24 @@ easy_admin:
         #- App\Entity\User
         User:
             class: App\Entity\User
+            form:
+                fields:
+                    - { property: 'username' }
+                    - { property: 'email' }
+                    - { property: 'plainPassword' }
+                    - { property: 'isActive' }
+                    - { property: 'isBlocked' }
+                    - { property: 'posts' }
+                    - { property: 'comments' }
+                    - property: 'roles'
+                      type: 'choice'
+                      type_options:
+                          mapped: true
+                          expanded: true
+                          multiple: true
+                          choices: {'User':'ROLE_USER',
+                                    'Author':'ROLE_AUTHOR',
+                                    'Admin':'ROLE_ADMIN'}
     design:
         menu:
             - { entity: 'Post', default: true }

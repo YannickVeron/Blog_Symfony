@@ -1,6 +1,6 @@
 <li class="post-short">
     <a href="{{ path('post_show',{id:post.id,name:post.title}) }}">
         <h5>{{post.title}}</h5>
-        <p>{{post.content[:20] }}...</p>
+            <p>{{post.content|markdown_to_html|striptags[:20]}}...</p>
     </a>
 </li>
