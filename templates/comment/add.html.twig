@@ -1,5 +1,5 @@
-<form action="{{ path('comment_add') }}">
-    <input type="hidden" value="{{ post.id }}">
-    <textarea placeholder="Add Comment"></textarea>
+<form action="{{ path('comment_add',{post:post.id}) }}" method="post">
+    <input type="hidden" id="post_id" name="post_id" value="{{ post.id }}">
+    <textarea id="content" name="content" placeholder="Add Comment"></textarea>
     <button type="submit" class="btn btn-primary">Valider</button>
 </form>

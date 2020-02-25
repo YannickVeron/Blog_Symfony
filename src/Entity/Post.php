@@ -40,6 +40,11 @@ class Post
     private $isDeleted;
 
     /**
+     * @ORM\Column(type="boolean", options={"default" : true})
+     */
+    private $isPublished;
+
+    /**
      * @ORM\OneToMany(targetEntity="App\Entity\Comment", mappedBy="post", orphanRemoval=true)
      */
     private $comments;
@@ -153,5 +158,21 @@ class Post
         $this->title = $title;
 
         return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getIsPublished()
+    {
+        return $this->isPublished;
+    }
+
+    /**
+     * @param mixed $isPublished
+     */
+    public function setIsPublished($isPublished): void
+    {
+        $this->isPublished = $isPublished;
     }
 }

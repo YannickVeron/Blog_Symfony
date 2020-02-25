@@ -4,6 +4,7 @@
             {% if app.user %}
                 <h2>{{app.user.username}}</h2>
                 <a class="btn btn-info" href="{{ path("app_logout")}}">Logout</a>
+                <a class="btn btn-info" href="{{ path('post_drafts') }}">Drafts</a>
             {% else %}
                 <a class="btn btn-info" href="{{ path("app_login")}}">Login</a>
             {% endif %}

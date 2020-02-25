@@ -2,10 +2,11 @@
 
 To run blog : 
 ```
-http://127.0.0.1:8000/  
 composer install
 bin/console doctrine:migrations:migrate
+symfony serve  
 ```
+http://127.0.0.1:8000/
 
 ### Doctrine
 
@@ -29,6 +30,7 @@ User => Comment : One to Many
 >Expliquer ce qu'est le fichier .env
 
 Le fichier .env est utilisé pour définir les variables d'environment.
+Il définit les paramêtre de l'application
 
 >Expliquer pourquoi il faut changer le connecteur à la base de données.
 
@@ -38,7 +40,7 @@ Il faut changer le connecteur car il utilise par default une BDD mysql au lieu d
 
 >Expliquer l'intérêt des migrations d'une base de données.
 
-Les migration permettent de pouvoir revenir en arrière si besoin grâce au rollback.
+Les migration permettent de pouvoir revenir en arrière si besoin grâce au rollback.(Versioning)
 
 ### Administration
 
@@ -100,7 +102,7 @@ Les personnalisations sont :
 * Provider : Gère l'utilisateur connecté (Reload depuis session, remember-me, impersonation)
 * Firewall : Système d'auth, définie comment un utilisateur se connect (form, api, etc)
 * Access Control : Vérifie que l'utilisateur peut acceder à la ressource demandée.
-* Role : Droit d'un utilisateur, l'Access Control vérifie les roles pour donner accès ou non aux ressources
+* Role : Droit/privilège d'un utilisateur, l'Access Control vérifie les roles pour donner accès ou non aux ressources
 * Voter : Définit les droits d'un utilisteur spécifique envers une ressource spécifique (ex : un utilisateur peut modifier un article si il en est l'auteur.)
 
 >Qu'est-ce que FOSUserBundle ? Pourquoi ne pas l'utiliser ?
@@ -112,9 +114,51 @@ Il ne sera pas utilisé car il n'y aura pas besoin de ces fonctionnalités dans 
 
 * Argon2i et Bcrypt sont des hasheurs de mot de passe.
 * Plaintext signifie sans cryptage.
-* BasicHTTP encode les paires ID_user/MdP encodés en base64
+* BasicHTTP système d'auth pour acceder à une resource encode les paires ID_user/MdP encodés en base64
 
 >Expliquer le principe de hachage.
 
+Le hachage convertit de façon irreversible une donnée en son empreinte unique (ou quasi unique : voir collision).
+
 >Faire un schema expliquant quelle méthode est appelée dans quel ordre dans le LoginFormAuthenticator. Définir l'objectif de chaque méthodes du fichier.
+```
+support()
+    getCredentials()
+        getUser()
+            checkCredentials()
+                onAuthenticationSuccess()
+```
+* support() : Vérifie si on est sur la route de login
+* getCredentials() : Parse la requete pour récupérer les identifiants.
+* getUser() : Récupère l'utilisateur dans la BDD grace à son username.
+* checkCredentials() : Vérifie que le mot de passe correspond à l'utilisateur.
+* onAuthenticationSuccess() : redirige l'utilisateur si la connection a réussie.
+
+### Services
+
+>À quoi sert un service dans Symfony ?
+ 
+ Singleton qui peut-être utilisé à divers endroit.
+ Tout est service (sauf les Entités).
+ 
+>Avez-vous déjà utilisé des services dans ce projet ? Si oui, lesquels ?
+ 
+>Définir les termes suivant : Dependency Injection, Service, Autowiring, Container
+
+* Dependency Injection :
+* Service :
+* Autowiring :
+* Container : stock les instances de service déjà instancié pour pouvoir les utiliser sans les réinstancier
+
+
+>Quelle importance a les services dans le fonctionnement de Symfony ?
+
+Total
+
+>À quoi sert le validateur ?
+
+
+>Dans quel contexte peut-on valider des données ?
+
+>Quels sont les différentes parties du Serializer et à quoi servent-elles ?
 

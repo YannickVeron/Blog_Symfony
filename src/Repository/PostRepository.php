@@ -53,6 +53,7 @@ class PostRepository extends ServiceEntityRepository
         $qb = $this->createQueryBuilder('p');
         $qb->addSelect('COUNT(c.id) AS HIDDEN comCount')
             ->leftJoin('p.comments','c',Expr\Join::WITH,'p = c.post')
+            ->where('p.isPublished=1')
             ->groupBy('p.id')
             ->orderBy('comCount','DESC')
             ->addOrderBy('p.createdAt','DESC');

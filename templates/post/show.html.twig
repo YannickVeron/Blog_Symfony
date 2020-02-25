@@ -1,20 +1,33 @@
 {% extends 'base.html.twig' %}
 {% block content %}
-    <h2>{{ post.title }}</h2>
-    <h6>Published on {{ post.createdAt.format('F j Y') }} -
+    <div class="row">
+        <h2>{{ post.title }}</h2>
+        {% if is_granted('POST_PUBLISH', post)%}
+            {% if post.isPublished %}
+                <a class="btn btn-danger" href="{{ path('post_publish',{post:post.id}) }}">Unpublish</a>
+            {% else %}
+                <a class="btn btn-success" href="{{ path('post_publish',{post:post.id}) }}">Publish</a>
+            {% endif %}
+        {% endif %}
+    </div>
+    <h6>
+        {% if post.isPublished %}
+            Published
+        {% else %}
+            Created
+        {% endif %}
+        on {{ post.createdAt.format('F j Y') }} -
         <a href="{{ path("user_show",{id:post.author.id,name:post.author.username})}}">{{  post.author }}</a>
     </h6>
     <p>
         {{ post.content | striptags | markdown_to_html }}
     </p>
-    {{ render(controller(
-        'App\\Controller\\CommentController::add'
-    )) }}
+    {{ include("comment/add.html.twig") }}
     <h5>Last Comments</h5>
     {%for comment in post.comments %}
         <h6>
             <a href="{{ path("user_show",{id:comment.author.id,name:comment.author.username})}}">{{ comment.author }}</a>
         </h6>
-        <p>{{ comment.content }}</p>
+        <p>{{ comment.content | striptags | markdown_to_html}}</p>
     {% endfor %}
 {% endblock %}

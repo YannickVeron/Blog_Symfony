@@ -42,7 +42,8 @@ security:
     access_control:
         - { path: ^/login, roles: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/add, roles: ROLE_AUTHOR}
-        - { path: ^/admin, roles: ROLE_ADMIN }
+        #restrict comment post to Users
+        - { path: ^/post, roles: ROLE_USER }
         # - { path: ^/profile, roles: ROLE_USER }
     #Hiearchie roles
     #https://symfony.com/doc/current/security.html#hierarchical-roles

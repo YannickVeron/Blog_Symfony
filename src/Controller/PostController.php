@@ -14,6 +14,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use App\Entity\Post;
+use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 
 class PostController extends AbstractController
 {
@@ -23,7 +24,7 @@ class PostController extends AbstractController
     public function index(EntityManagerInterface $entityManager): Response
     {
         $postRepo = $entityManager->getRepository(Post::class);
-        $posts = $postRepo->findBy([], ['createdAt' => 'ASC'],50);
+        $posts = $postRepo->findBy(['isPublished'=>true], ['createdAt' => 'DESC'],50);
         return $this->render("post/index.html.twig",['posts'=>$posts]);
     }
 
@@ -45,14 +46,11 @@ class PostController extends AbstractController
 
         $form->handleRequest($request);
         if($form->isSubmitted() && $form->isValid()){
-            //TODO("Handle error when no user are found")
-            $userRepo = $entityManager->getRepository(User::class);
-            $user = $userRepo->findBy([],null,1)[0];
-
             $post = $form->getData();
             $post->setCreatedAt(new \DateTime());
             $post->setIsDeleted(false);
-            $post->setAuthor($user);
+            $post->setIsPublished(false);
+            $post->setAuthor($this->getUser());
             $entityManager->persist($post);
             $entityManager->flush();
 
@@ -62,6 +60,28 @@ class PostController extends AbstractController
         return $this->render('post/add.html.twig',['form'=>$form->createView()]);
     }
 
+    /**
+     * @Route("/publish/{post}", name="post_publish")
+     */
+    public function publish(Post $post,EntityManagerInterface $entityManager):Response
+    {
+        if (!$this->isGranted('POST_PUBLISH', $post)) {
+            throw new AccessDeniedException('Accesss Denied');
+        }
+        $post->setIsPublished(!$post->getIsPublished());
+        $entityManager->flush();
+        return $this->redirectToRoute('post_index');
+    }
+
+    /**
+     * @Route("/drafts", name="post_drafts")
+     */
+    public function drafts(PostRepository $postRepo):Response
+    {
+        $drafts = $postRepo->findBy(['isPublished'=>false], array('createdAt' => 'DESC'));
+        return $this->render("post/drafts.html.twig",['posts'=>$drafts]);
+    }
+
     public function topPosts(PostRepository $postRepo,$limit=10) : Response
     {
         return $this->render("post/top.html.twig",['posts'=>$postRepo->findTop($limit)]);
@@ -69,7 +89,7 @@ class PostController extends AbstractController
 
     public function lastPosts(PostRepository $postRepo,$limit=10) : Response
     {
-        $lastPosts = $postRepo->findBy(array(), array('createdAt' => 'ASC'),10);
+        $lastPosts = $postRepo->findBy(['isPublished'=>true], array('createdAt' => 'DESC'),10);
         return $this->render("post/top.html.twig",['posts'=>$lastPosts]);
     }
 }
